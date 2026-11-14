@@ -12,9 +12,8 @@ Copyright (C) 2025 Sinan Türdü
 SPDX-License-Identifier: AGPL-3.0-only
 
 This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+it under the terms of version 3 of the GNU Affero General Public License
+as published by the Free Software Foundation.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -25,13 +24,13 @@ You should have received a copy of the GNU Affero General Public License
 along with this program (see LICENSE). If not, see <https://www.gnu.org/licenses/>.
 ```
 
-The root [`LICENSE`](LICENSE) contains the **unmodified verbatim text** of the **GNU Affero General Public License v3.0** (`Version 3, 19 November 2007`, Free Software Foundation, Inc.) and applies **exclusively** to the original source code, web application logic, and documentation written by **Sinan Türdü**:
+The root [`LICENSE`](LICENSE) contains the **unmodified verbatim text** of the **GNU Affero General Public License v3.0** (`Version 3, 19 November 2007`, Free Software Foundation, Inc.; `SPDX-License-Identifier: AGPL-3.0-only`, version 3 of the License only) and applies **exclusively** to the original source code, web application logic, and documentation written by **Sinan Türdü**:
 
 - **Original Backend Code:** [`backend/main.py`](backend/main.py), [`backend/models/csrnet.py`](backend/models/csrnet.py), [`backend/tests/test_security_and_api.py`](backend/tests/test_security_and_api.py), and legacy prototypes in [`backend/legacy/`](backend/legacy/).
 - **Original Frontend Code:** All React 19 / Vite 7 components, pages, state context, and configuration files under [`frontend/src/`](frontend/src/).
-- **Original Research & Training Code:** Custom PyTorch training loops, sum-preserving density resizing, background suppression and A/B scene-aware loss functions, $384 \times 384$ overlapping Gaussian patch inference, and evaluation pipelines in [`research/`](research/), **except** for the specific third-party dataset metadata files and adapted research routines identified below.
+- **Original Research & Training Code:** Custom PyTorch training loops, sum-preserving density resizing, background suppression and A/B scene-aware loss functions, $384 \times 384$ overlapping Gaussian patch inference, clean-room preprocessing pipelines, and evaluation scripts in [`research/`](research/), **except** for the preserved third-party dataset metadata files identified in Section 3.2 below.
 
-Adding the root `LICENSE` file **does not** relicense third-party libraries, adapted external snippets, academic datasets, or unbundled model checkpoints that the author does not own.
+Adding the root `LICENSE` file **does not** relicense third-party libraries, preserved dataset metadata files, academic datasets, or unbundled model checkpoints that the author does not own.
 
 ---
 
@@ -48,12 +47,11 @@ Adding the root `LICENSE` file **does not** relicense third-party libraries, ada
 
 ---
 
-## 3. Adapted Research Routines & Preserved Third-Party Metadata
+## 3. Clean-Room Research Implementations & Preserved Third-Party Metadata
 
-### 3.1 Geometry-Adaptive KDTree Gaussian Density Map Routine
-- **File:** [`research/preprocessing/csrnet_shanghaitech/generate_h5_from_mat.py`](research/preprocessing/csrnet_shanghaitech/generate_h5_from_mat.py) (`gaussian_filter_density`, lines 21–42)
-- **Provenance:** The `gaussian_filter_density(gt)` function adapts the standard geometry-adaptive Gaussian kernel algorithm ($k=4$ nearest neighbors via `scipy.spatial.KDTree`, $\sigma_i = 0.1 \sum_{j=1}^{3} d_{ij}$) introduced by Zhang et al. (*CVPR 2016*) and popularized in open-source Python by [`leeyeehoo/CSRNet-pytorch`](https://github.com/leeyeehoo/CSRNet-pytorch) and [`vlad3996/computing-density-maps`](https://github.com/vlad3996/computing-density-maps). The surrounding parallel `.h5` generation pipeline (`generate_density_map`, `collect_image_paths`, `joblib.Parallel`) was written for this project.
-- **License Note:** Because the upstream [`leeyeehoo/CSRNet-pytorch`](https://github.com/leeyeehoo/CSRNet-pytorch) repository did not publish a formal `LICENSE` file in its root, the adapted 22-line `gaussian_filter_density` routine is explicitly attributed here to its upstream authors rather than claimed as original work.
+### 3.1 Geometry-Adaptive Gaussian Density Map Implementation (Clean-Room Replacement)
+- **File:** [`research/preprocessing/csrnet_shanghaitech/generate_h5_from_mat.py`](research/preprocessing/csrnet_shanghaitech/generate_h5_from_mat.py) (`build_geometry_adaptive_density` & `gaussian_filter_density`)
+- **Provenance & Clean-Room Status:** Implements the published geometry-adaptive Gaussian kernel mathematical formulation ($\sigma_i = \beta \bar{d}_i$, with $\beta = 0.3$ over the $m = 3$ nearest spatial neighbors) introduced by Zhang et al. (*CVPR 2016*, Section 2.1, Eq. 4) and used by Li et al. (*CVPR 2018*, CSRNet). An earlier 22-line helper adapted from an unlicensed community repository (`leeyeehoo/CSRNet-pytorch`) was replaced with an original clean-room implementation (`build_geometry_adaptive_density`) written directly from the published mathematical specification, with explicit handling for zero-point scenes, single-point scenes, small point sets ($2 \le N \le 3$), duplicate coordinates (`min_sigma` floor), and bounded local Gaussian patches. Academic credit to Zhang et al. (*CVPR 2016*) and Li et al. (*CVPR 2018*) is preserved in Section 4 below.
 
 ### 3.2 Preserved Dataset README & Attribution Files in `research/configs/`
 The following metadata files were exported alongside external datasets and remain governed by their respective upstream terms:

@@ -46,17 +46,17 @@
 
 ## 2. Licensing & Redistribution Boundaries
 
-### 2.1 Repository License (`GNU AGPL-3.0`)
-- Original code written for this graduation project in `backend/`, `frontend/`, and `research/` is licensed under the **GNU Affero General Public License v3.0** ([`LICENSE`](../LICENSE)), ensuring compatibility with the core **`ultralytics==8.3.237`** dependency (which is distributed by Ultralytics Inc. under AGPL-3.0 for open-source users).
+### 2.1 Repository License (`GNU AGPL-3.0` / `AGPL-3.0-only`)
+- Original code written for this graduation project in `backend/`, `frontend/`, and `research/` is licensed under **version 3 of the GNU Affero General Public License only** (`SPDX-License-Identifier: AGPL-3.0-only`, [`LICENSE`](../LICENSE)), ensuring compatibility with the core **`ultralytics==8.3.237`** dependency (which is distributed by Ultralytics Inc. under AGPL-3.0 for open-source users).
 - Full provenance, third-party attributions, and academic citations are documented in [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md).
 
 ### 2.2 Unresolved Third-Party & Model Weight Licensing Considerations
-Adding a root `LICENSE` file **does not** automatically resolve third-party code or model checkpoint restrictions:
+Adding a root `LICENSE` file **does not** automatically resolve third-party dataset or model checkpoint restrictions:
 1. **Unbundled Model Checkpoints (Option C — Local-Only):**
    - `best.pt`, `best2.pt`, and `csrnet_AB_best.pth` are **excluded from Git** and are **not** publicly distributed.
    - `csrnet_AB_best.pth` was trained on **ShanghaiTech Part A + Part B** (Zhang et al., CVPR 2016), which restricts use to non-commercial academic research and does not grant an explicit open-source license for redistributing derivative weights. Simply labeling a weight file "Non-Commercial Only" does not automatically grant legal redistribution rights without upstream dataset owner permission.
    - For `best.pt` and `best2.pt` (fine-tuned from Ultralytics `yolov8s.pt`), keeping weights local-only while publishing the complete application source code and training scripts (`research/training/`) satisfies AGPL-3.0 source-code transparency for the software without redistributing unverified binary model artifacts.
-2. **Adapted KDTree Gaussian Density Routine:**
-   - As documented in [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md), `gaussian_filter_density` in [`research/preprocessing/csrnet_shanghaitech/generate_h5_from_mat.py`](../research/preprocessing/csrnet_shanghaitech/generate_h5_from_mat.py) adapts the community ShanghaiTech KDTree kernel routine (`leeyeehoo/CSRNet-pytorch`), whose upstream repository lacked an explicit license file. It is retained for academic reproducibility with explicit attribution and is not part of the runtime `backend/` or `frontend/` application.
+2. **Clean-Room Replacement of Geometry-Adaptive Gaussian Density Routine:**
+   - As documented in [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md), an earlier 22-line `gaussian_filter_density` routine in [`research/preprocessing/csrnet_shanghaitech/generate_h5_from_mat.py`](../research/preprocessing/csrnet_shanghaitech/generate_h5_from_mat.py) that had been adapted from an unlicensed community repository (`leeyeehoo/CSRNet-pytorch`) was replaced with an original clean-room implementation (`build_geometry_adaptive_density`) derived directly from the published mathematical formula in Zhang et al. (*CVPR 2016*, Eq. 4) and Li et al. (*CVPR 2018*). No unlicensed third-party code remains in `research/`.
 3. **Excluded Datasets & Local Stop Photographs:**
    - Raw datasets (**ShanghaiTech**, **UCF-QNRF**, **MOT20**, **CrowdHuman**, and Roboflow exports) and the 15 local transit stop photographs (`frontend/public/stops/*.jpg`) remain strictly excluded from the repository via [`.gitignore`](../.gitignore).

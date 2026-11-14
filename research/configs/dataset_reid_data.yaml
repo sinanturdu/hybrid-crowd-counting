@@ -1,0 +1,12 @@
+train: data/reid.v1i.yolov8/train
+val: data/reid.v1i.yolov8/valid
+
+nc: 1
+names: ['person']
+
+roboflow:
+  workspace: bq
+  project: reid-pgi5t
+  version: 1
+  license: MIT
+  url: https://universe.roboflow.com/bq/reid-pgi5t/dataset/1

@@ -1,0 +1,5 @@
+train: crowdhuman/Images
+val: crowdhuman/images_test
+
+nc: 1
+names: ["person"]

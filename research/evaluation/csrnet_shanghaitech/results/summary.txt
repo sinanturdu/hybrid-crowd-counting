@@ -1,0 +1,5 @@
+MAE: 35.84
+RMSE: 69.92
+Under-count ratio: 0.540
+Over-count ratio: 0.460
+Recall-like (<10% error): 0.514

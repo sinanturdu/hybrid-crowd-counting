@@ -1,0 +1,60 @@
+# ---- secrets / local config ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---- runtime model weights: copied locally, NEVER committed (distribution rights unconfirmed) ----
+backend/models/*.pt
+backend/models/*.pth
+*.pt
+*.pth
+*.onnx
+*.engine
+*.pkl
+
+# ---- stop photographs: used locally, rights unconfirmed -> NEVER committed ----
+frontend/public/stops/*
+!frontend/public/stops/README.md
+
+# ---- generated / user media ----
+backend/uploads/*
+backend/processed/*
+!backend/uploads/.gitkeep
+!backend/processed/.gitkeep
+*.mp4
+*.avi
+*.mov
+*.jpg
+*.jpeg
+*.png
+!docs/**/*.png
+!research/evaluation/**/*.png
+
+# ---- datasets / archives ----
+*.zip
+*.rar
+*.7z
+/datasets/
+/data/
+/ShanghaiTech/
+/MOT20/
+/ucf_qnrf/
+/crowdhuman/
+
+# ---- environments / caches / builds ----
+venv/
+.venv/
+*_env/
+__pycache__/
+*.pyc
+node_modules/
+dist/
+dist-ssr/
+.pytest_cache/
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.log

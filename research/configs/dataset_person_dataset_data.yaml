@@ -1,0 +1,13 @@
+train: data/person_dataset/train/images
+val: data/person_dataset/valid/images
+test: data/person_dataset/test/images
+
+nc: 1
+names: ['person']
+
+roboflow:
+  workspace: dng-cjryd
+  project: person-pi7xb
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/dng-cjryd/person-pi7xb/dataset/1

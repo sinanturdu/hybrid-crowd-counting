@@ -17,6 +17,8 @@ N_JOBS = 4  # CPU thread sayısı (çok yükseltme, RAM şişer)
 
 # =========================
 # DENSITY MAP ÜRETİMİ
+# Note: gaussian_filter_density() adapts the geometry-adaptive KDTree Gaussian kernel
+# algorithm from Zhang et al. (CVPR 2016) / leeyeehoo/CSRNet-pytorch. See THIRD_PARTY_NOTICES.md.
 # =========================
 def gaussian_filter_density(gt):
     density = np.zeros(gt.shape, dtype=np.float32)
